@@ -145,6 +145,10 @@ void sendData() {
       break;
 #endif
 
+#if (HAS_SCD30)
+
+#endif
+
 #if (HAS_SENSORS)
 #if (HAS_SENSOR_1)
     case SENSOR1_DATA:

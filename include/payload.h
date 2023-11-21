@@ -58,6 +58,7 @@ public:
   void addSensor(uint8_t[]);
   void addTime(time_t value);
   void addSDS(sdsStatus_t value);
+  void addSCD30(uint16_t co2, float temperature, float humidity);
 
 private:
   void addChars( char* string, int len);

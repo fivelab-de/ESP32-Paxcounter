@@ -150,6 +150,19 @@ void PayloadConvert::addTime(time_t value) {
   buffer[cursor++] = (byte)((time & 0x000000FF));
 }
 
+void PayloadConvert::addSCD30(uint16_t co2, float temperature, float humidity) {
+#ifdef HAS_SCD30
+  int16_t temperature = (int16_t)(temperature);        // float -> int
+  uint16_t humidity = (uint16_t)(humidity);            // float -> unsigned int
+  buffer[cursor++] = highByte(co2);
+  buffer[cursor++] = lowByte(co2);
+  buffer[cursor++] = highByte(temperature);
+  buffer[cursor++] = lowByte(temperature);
+  buffer[cursor++] = highByte(humidity);
+  buffer[cursor++] = lowByte(humidity);
+#endif
+}
+
 /* ---------------- packed format with LoRa serialization Encoder ----------
  */
 // derived from
@@ -217,6 +230,14 @@ void PayloadConvert::addBME(bmeStatus_t value) {
   writePressure(value.pressure);
   writeUFloat(value.humidity);
   writeUFloat(value.iaq);
+#endif
+}
+
+void PayloadConvert::addSCD30(uint16_t co2, float temperature, float humidity) {
+#ifdef HAS_SCD30
+  writeUint16(co2);
+  writeFloat(temperature);
+  writeFloat(humidity);
 #endif
 }
 
